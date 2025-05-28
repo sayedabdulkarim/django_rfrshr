@@ -4,18 +4,20 @@
 
 {% block content %}
 <div class="container">
-    <form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Receipe name</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" name="receipe_name" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Receipe description</label>
-            <textarea class="form-control"></textarea>
+            <textarea class="form-control" name="receipe_description"></textarea>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Receipe Image</label>
-            <input type="file" class="form-control" id="exampleInputPassword1">
+            <input type="file" class="form-control" id="exampleInputPassword1" name="receipe_image">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
