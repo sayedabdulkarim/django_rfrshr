@@ -41,3 +41,9 @@ django-admin startproject core
 python manage.py startapp ...projectname
 
 storefront(base) saykarim@WKMZT5E7489C core % python manage.py runserver       
+
+python manage.py makemigrations
+
+python manage.py migrate    
+
+ python manage.py shell

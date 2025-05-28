@@ -9,11 +9,17 @@ class Student(models.Model):
     age = models.PositiveIntegerField()
     email = models.EmailField(unique=True)
     address = models.TextField(blank=True, null=True)
-    image = models.ImageField()
+    image = models.ImageField(blank=True, null=True)
     file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Product(models.Model):
-    pass
+class Car(models.Model):
+    """
+    Model representing a car.
+    """
+    name = models.CharField(max_length=100)
+    speed = models.PositiveIntegerField(default=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
