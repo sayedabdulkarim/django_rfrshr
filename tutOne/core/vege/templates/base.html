@@ -4,6 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}My Site{% endblock %}</title>
+    <!-- add bootsrap here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        header h1,
+        header nav,
+        footer {
+            text-align: center;
+        }
+
+        main {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +34,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>&copy; 2025 My Veggie Site</p>
+        <p>&copy; {{ now|date:"Y" }} My Veggie Site</p>
     </footer>
 </body>
 
