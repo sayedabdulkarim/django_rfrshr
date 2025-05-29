@@ -21,4 +21,6 @@ def receipes(request):
         # Redirect after POST to avoid CSRF issues and duplicate submissions
         return redirect('/receipes/')  # Make sure 'receipes' is the name in your urls.py
 
-    return render(request, 'receipes.html', { 'now': timezone.now() })
+    queryset = Receipe.objects.all()
+
+    return render(request, 'receipes.html', { 'receipesList': queryset, 'now': timezone.now() })

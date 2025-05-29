@@ -21,6 +21,24 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-</div>
-<!-- Your recipes content here -->
-{% endblock %}
+    <!-- receipesList -->
+    <div class="receipesList">
+        {% for receipe in receipes %}
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ receipe.receipe_image.url }}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ receipe.receipe_name }}</h5>
+                        <p class="card-text">{{ receipe.receipe_description }}</p>
+                        <p class="card-text"><small class="text-muted">Last updated {{ receipe.updated_at }}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Your recipes content here -->
+    {% endblock %}
