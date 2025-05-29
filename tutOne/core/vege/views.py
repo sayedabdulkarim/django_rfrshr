@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 
 from .models import Receipe
@@ -24,3 +24,9 @@ def receipes(request):
     queryset = Receipe.objects.all()
 
     return render(request, 'receipes.html', { 'receipesList': queryset, 'now': timezone.now() })
+
+def delete_receipe(request, id):
+    """Delete a specific recipe"""
+    receipe = get_object_or_404(Receipe, id=id)
+    receipe.delete()
+    return redirect('/receipes/')
