@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from .models import Receipe
 
@@ -66,26 +67,33 @@ def login_page(request):
 def register_page(request):
     if request.method == "POST":
         # Handle registration logic here
-        # For example, create a new user
         username = request.POST.get('username')
-
-        ## password encuption
-        from django.contrib.auth.hashers import make_password
-        # Encrypt the password
-
-        password = make_password(request.POST.get('password'))
-
-
-        # password = request.POST.get('password')
+        password = request.POST.get('password')
         email = request.POST.get('email')
 
-        # Create a new user
+        # Validate required fields
+        if not username or not password or not email:
+            messages.error(request, 'All fields are required.')
+            return render(request, 'register.html')
+
+        # Check if username already exists
         if User.objects.filter(username=username).exists():
-            print('Username already exists')
-            return render(request, 'register.html', {'error': 'Username already exists'})
-        user = User.objects.create_user(username=username, password=password, email=email)
-        user.save()
+            messages.error(request, 'Username already exists. Please choose a different username.')
+            return render(request, 'register.html')
         
-        return redirect('/login/')
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists. Please use a different email.')
+            return render(request, 'register.html')
+
+        try:
+            # Create a new user (Django handles password hashing automatically)
+            user = User.objects.create_user(username=username, password=password, email=email)
+            messages.success(request, 'Registration successful! You can now log in.')
+            return redirect('/login/')
+        except Exception as e:
+            messages.error(request, 'An error occurred during registration. Please try again.')
+            return render(request, 'register.html')
+    
     """Render the register page"""
     return render(request, 'register.html')
