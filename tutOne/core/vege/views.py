@@ -90,7 +90,7 @@ def register_page(request):
             # Create a new user (Django handles password hashing automatically)
             user = User.objects.create_user(username=username, password=password, email=email)
             messages.success(request, 'Registration successful! You can now log in.')
-            return redirect('/login/')
+            # return redirect('/login/')
         except Exception as e:
             messages.error(request, 'An error occurred during registration. Please try again.')
             return render(request, 'register.html')
