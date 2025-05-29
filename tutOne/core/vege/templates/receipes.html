@@ -4,23 +4,42 @@
 
 {% block content %}
 <div class="container">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Receipe name</label>
-            <input type="text" class="form-control" name="receipe_name" id="exampleInputEmail1"
-                aria-describedby="emailHelp">
+
+    <!-- Search -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form method="get" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search recipes..."
+                    value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-outline-secondary">Search</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Receipe description</label>
-            <textarea class="form-control" name="receipe_description"></textarea>
+    </div>
+
+    <!-- Add Recipe Form -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h4>Add New Recipe</h4>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Receipe name</label>
+                    <input type="text" class="form-control" name="receipe_name" id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Receipe description</label>
+                    <textarea class="form-control" name="receipe_description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Receipe Image</label>
+                    <input type="file" class="form-control" id="exampleInputPassword1" name="receipe_image">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Receipe Image</label>
-            <input type="file" class="form-control" id="exampleInputPassword1" name="receipe_image">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
+
     <!-- receipesList -->
     <div class="receipesList">
         {% for receipe in receipesList %}

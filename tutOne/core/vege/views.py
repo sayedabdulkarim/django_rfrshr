@@ -5,23 +5,29 @@ from .models import Receipe
 
 # Create your views here.
 def receipes(request):
-    # data = request.POST
     if request.method == "POST":
         receipe_name = request.POST.get('receipe_name')
         receipe_description = request.POST.get('receipe_description')
-        receipe_image = request.FILES.get('receipe_image')  # <-- use request.FILES here
+        receipe_image = request.FILES.get('receipe_image')
 
-        print({receipe_image, receipe_name, receipe_description}, ' datt')  # This will show the uploaded file objec
-        # print(data, ' data from receipes view')
+        print({receipe_image, receipe_name, receipe_description}, ' datt')
         Receipe.objects.create(
             receipe_name=receipe_name,
             receipe_description=receipe_description,
             receipe_image=receipe_image
         )
-        # Redirect after POST to avoid CSRF issues and duplicate submissions
-        return redirect('/receipes/')  # Make sure 'receipes' is the name in your urls.py
+        return redirect('/receipes/')
 
+    # Handle search functionality
     queryset = Receipe.objects.all()
+    search_query = request.GET.get('search')
+    
+    if search_query:
+        queryset = queryset.filter(
+            receipe_name__icontains=search_query
+        ) | queryset.filter(
+            receipe_description__icontains=search_query
+        )
 
     return render(request, 'receipes.html', { 'receipesList': queryset, 'now': timezone.now() })
 
