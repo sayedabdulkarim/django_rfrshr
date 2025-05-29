@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from .models import Receipe
 
@@ -63,5 +64,28 @@ def login_page(request):
     return render(request, 'login.html')
 
 def register_page(request):
+    if request.method == "POST":
+        # Handle registration logic here
+        # For example, create a new user
+        username = request.POST.get('username')
+
+        ## password encuption
+        from django.contrib.auth.hashers import make_password
+        # Encrypt the password
+
+        password = make_password(request.POST.get('password'))
+
+
+        # password = request.POST.get('password')
+        email = request.POST.get('email')
+
+        # Create a new user
+        if User.objects.filter(username=username).exists():
+            print('Username already exists')
+            return render(request, 'register.html', {'error': 'Username already exists'})
+        user = User.objects.create_user(username=username, password=password, email=email)
+        user.save()
+        
+        return redirect('/login/')
     """Render the register page"""
     return render(request, 'register.html')
