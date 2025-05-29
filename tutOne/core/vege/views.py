@@ -30,3 +30,25 @@ def delete_receipe(request, id):
     receipe = get_object_or_404(Receipe, id=id)
     receipe.delete()
     return redirect('/receipes/')
+
+def update_receipe(request, id):
+    """Update a specific recipe"""
+    receipe = get_object_or_404(Receipe, id=id)
+    
+    if request.method == "POST":
+        receipe_name = request.POST.get('receipe_name')
+        receipe_description = request.POST.get('receipe_description')
+        receipe_image = request.FILES.get('receipe_image')
+        
+        # Update the recipe fields
+        receipe.receipe_name = receipe_name
+        receipe.receipe_description = receipe_description
+        
+        # Only update image if a new one is provided
+        if receipe_image:
+            receipe.receipe_image = receipe_image
+        
+        receipe.save()
+        return redirect('/receipes/')
+    
+    return render(request, 'update_receipe.html', {'receipe': receipe})

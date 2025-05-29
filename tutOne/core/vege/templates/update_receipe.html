@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Update Recipe{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Update Recipe</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="receipe_name" class="form-label">Recipe name</label>
+            <input type="text" class="form-control" name="receipe_name" id="receipe_name"
+                value="{{ receipe.receipe_name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="receipe_description" class="form-label">Recipe description</label>
+            <textarea class="form-control" name="receipe_description" id="receipe_description"
+                required>{{ receipe.receipe_description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="receipe_image" class="form-label">Recipe Image</label>
+            {% if receipe.receipe_image %}
+            <div class="mb-2">
+                <img src="{{ receipe.receipe_image.url }}" alt="Current Image"
+                    style="max-width: 200px; max-height: 200px;" class="img-thumbnail">
+                <p class="text-muted">Current image</p>
+            </div>
+            {% endif %}
+            <input type="file" class="form-control" id="receipe_image" name="receipe_image">
+            <small class="form-text text-muted">Leave empty to keep current image</small>
+        </div>
+        <button type="submit" class="btn btn-success">Update Recipe</button>
+        <a href="/receipes/" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

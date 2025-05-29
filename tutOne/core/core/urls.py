@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 ## custom imports
 from home.views import home, successPageFromHome
-from vege.views import receipes, delete_receipe
+from vege.views import receipes, delete_receipe, update_receipe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     ## receipes view
     path('receipes/', receipes, name='receipes'),
     path('delete-receipe/<int:id>/', delete_receipe, name='delete_receipe'),
+    path('update-receipe/<int:id>/', update_receipe, name='update_receipe'),
 ]
 
 # Serve media files during development
