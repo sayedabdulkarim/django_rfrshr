@@ -56,5 +56,12 @@ def update_receipe(request, id):
         
         receipe.save()
         return redirect('/receipes/')
-    
     return render(request, 'update_receipe.html', {'receipe': receipe})
+
+def login_page(request):
+    """Render the login page"""
+    return render(request, 'login.html')
+
+def register_page(request):
+    """Render the register page"""
+    return render(request, 'register.html')
