@@ -79,8 +79,9 @@ def login_page(request):
         if User.objects.filter(username=username_or_email).exists():
             user = authenticate(request, username=username_or_email, password=password)
         elif User.objects.filter(email=username_or_email).exists():
-            user_obj = User.objects.get(email=username_or_email)
-            user = authenticate(request, username=user_obj.username, password=password)
+            user_obj = User.objects.filter(email=username_or_email).first()  # Use first() instead of get()
+            if user_obj:
+                user = authenticate(request, username=user_obj.username, password=password)
 
         if user is not None:
             login(request, user)
@@ -117,7 +118,7 @@ def register_page(request):
             # Create a new user (Django handles password hashing automatically)
             user = User.objects.create_user(username=username, password=password, email=email)
             messages.success(request, 'Registration successful! You can now log in.')
-            # return redirect('/login/')
+            return redirect('/login/')
         except Exception as e:
             messages.error(request, 'An error occurred during registration. Please try again.')
             return render(request, 'register.html')
