@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .models import Receipe
 
@@ -61,6 +61,13 @@ def update_receipe(request, id):
         return redirect('/receipes/')
     return render(request, 'update_receipe.html', {'receipe': receipe})
 
+def logout_page(request):
+    """Handle user logout"""
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('/login/')
+
+
 def login_page(request):
     """Render the login page"""
     if request.method == "POST":
@@ -90,7 +97,6 @@ def login_page(request):
         else:
             messages.error(request, 'Invalid username/email or password.')
     return render(request, 'login.html')
-
 
 def register_page(request):
     if request.method == "POST":
