@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 from .models import Receipe
 
@@ -62,7 +63,33 @@ def update_receipe(request, id):
 
 def login_page(request):
     """Render the login page"""
+    if request.method == "POST":
+        username_or_email = request.POST.get('username')
+        password = request.POST.get('password')
+
+        print(username_or_email, password, 'login data')
+
+        # Validate required fields
+        if not username_or_email or not password:
+            messages.error(request, 'Username/Email and password are required.')
+            return render(request, 'login.html')
+
+        # Try to find user by username or email
+        user = None
+        if User.objects.filter(username=username_or_email).exists():
+            user = authenticate(request, username=username_or_email, password=password)
+        elif User.objects.filter(email=username_or_email).exists():
+            user_obj = User.objects.get(email=username_or_email)
+            user = authenticate(request, username=user_obj.username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login successful!')
+            return redirect('/receipes/')
+        else:
+            messages.error(request, 'Invalid username/email or password.')
     return render(request, 'login.html')
+
 
 def register_page(request):
     if request.method == "POST":
